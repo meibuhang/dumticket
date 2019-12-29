@@ -1,0 +1,10 @@
+//GET CATEGORIES
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+
+//POST User
+// export const POST_USER = 'POST_USER';
+
+//GET EVENT
+export const GET_EVENT = 'GET_EVENT';
+
+//LOGIN lOG OUT REQUEST
