@@ -1,4 +1,4 @@
-import { GET_EVENT } from '../config/constants.js';
+import { GET_EVENT, GET_NEXTEVENT } from '../config/constants.js';
 
 // yg akan pertama kali di baca :
 const initialState = {
@@ -8,8 +8,16 @@ const initialState = {
 	error: false
 };
 
+const nextinitialState = {
+	datas: [],
+	isLoadings: false,
+	isPosts: false,
+	errors: false
+};
+
 export const event = (state = initialState, action) => {
 	switch (action.type) {
+		//TODAY EVENT
 		case `${GET_EVENT}_PENDING`:
 			return {
 				...state,
@@ -27,7 +35,35 @@ export const event = (state = initialState, action) => {
 				error: true,
 				isLoading: false
 			};
+
 		default:
 			return state;
+	}
+};
+
+//exports again bcz have same endpoint wt get_event
+export const events = (states = nextinitialState, actions) => {
+	switch (actions.type) {
+		//NEXT EVENT
+		case `${GET_NEXTEVENT}_PENDING`:
+			return {
+				...states,
+				isLoadings: true
+			};
+		case `${GET_NEXTEVENT}_FULFILLED`:
+			return {
+				...states,
+				datas: actions.payload.data.event,
+				isLoadings: false
+			};
+		case `${GET_NEXTEVENT}_REJECTED`:
+			return {
+				...states,
+				error: true,
+				isLoadings: false
+			};
+
+		default:
+			return states;
 	}
 };

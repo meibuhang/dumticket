@@ -30,9 +30,10 @@ module.exports = (sequelize, DataTypes) => {
 			as: 'order',
 			sourceKey: 'id'
 		});
-		user.hasMany(models.favorite, {
-			foreignKey: 'id',
-			as: 'favorite'
+		user.belongsToMany(models.event, {
+			through: models.favorite,
+			as: 'events',
+			foreignKey: 'user_id'
 		});
 	};
 	return user;

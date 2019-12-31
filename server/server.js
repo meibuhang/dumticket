@@ -12,7 +12,7 @@ app.use(
 ); // support encoded bodies
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.use(cors({ origin: '*' })); //lintas antar port front and back
+app.use(cors()); //lintas antar port front and back
 // app.use(cors);
 const port = 4500;
 
@@ -24,6 +24,7 @@ require('./router/user')(app);
 require('./router/category')(app);
 require('./router/event')(app);
 require('./router/order')(app);
+require('./router/favorite')(app);
 
 //listen to defined port
 app.listen(port, () => console.log('App listening at http://', port));

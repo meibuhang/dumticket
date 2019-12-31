@@ -1,22 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-
-// import * as auth from './api/auth';
+import * as auths from '../api/auth';
 import Container from '@material-ui/core/Container';
-const useStyles = makeStyles((theme) => ({
-	margin: {
-		margin: theme.spacing(1)
-	}
-}));
 
 function LoginForm({ onSubmit }) {
-	const classes = useStyles();
-
 	return (
 		<Container maxWidth="lg">
 			<div className="formRegister">
@@ -49,14 +40,6 @@ function LoginForm({ onSubmit }) {
 								</Button>
 							</form>
 
-							<div className="tagForm">
-								<p>
-									No account?{' '}
-									<Link to="/pages/Register" className="Links">
-										Register
-									</Link>
-								</p>
-							</div>
 							<div className="tagFormFooter" />
 						</div>
 					</CardContent>
@@ -65,21 +48,24 @@ function LoginForm({ onSubmit }) {
 		</Container>
 	);
 }
-class Login extends React.Component {
+export default class Login extends React.Component {
 	handleSubmit = (event) => {
 		const username = event.target.username.value;
 		const password = event.target.password.value;
+		try {
+			auths
+				.login({ username, password })
+				.then(() => {
+					window.location = '/';
+				})
+				.catch((error) => {
+					alert('Gagal login');
 
-		// auth
-		// 	.login({ username, password })
-		// 	.then(() => {
-		// 		this.props.history.push('/home'); //direct halaman
-		// 	})
-		// 	.catch((error) => {
-		// 		alert('Gagal login');
-
-		// 		throw error;
-		// 	});
+					throw error;
+				});
+		} catch (e) {
+			alert(e.message);
+		}
 	};
 
 	render() {
@@ -90,4 +76,3 @@ class Login extends React.Component {
 		);
 	}
 }
-export default Login;

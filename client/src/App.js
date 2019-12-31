@@ -3,12 +3,13 @@ import './App.css';
 //import List from './components/List';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
 import Category from './component/Category';
-import Login from './pages/Login';
+import Login from './component/Login';
+import Profile from './pages/Profile';
 import Nav from './component/Nav';
-import Home from './Home';
-import Register from './pages/Register';
+import Home from './pages/Home';
+import Register from './component/Register';
+import Eventcat from './pages/Eventcat';
 // import {getCategories} from './_actions/categories'
 // class App extends Component{
 //   constructor(props){
@@ -41,19 +42,14 @@ class App extends Component {
 					{/* A <Switch> looks through its children <Route>s and
                 renders the first one that matches the current URL. */}
 					<Switch>
-						<Route path="/" exact component={Home} />
-						<Route path="/component/Header">
-							<Category />
-						</Route>
-						<Route path="/pages/Login">
-							<Login />
-						</Route>
-						<Route path="/component/Nav">
-							<Nav />
-						</Route>
-						<Route path="/pages/Register">
-							<Register />
-						</Route>
+						<Route path="/pages/Eventcat/:idCat" component={Eventcat} />
+						<Route path="/pages/home" component={Home} />
+						<Route path="/pages/profile" component={Profile} />
+						<Route path="/component/Header" component={Category} />>
+						<Route path="/component/Logout" component={Login} />>
+						<Route path="/component/Nav" component={Nav} />
+						<Route path="/component/Register" component={Register} />
+						<Route path="/" component={Home} />
 					</Switch>
 				</div>
 			</Router>

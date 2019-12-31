@@ -137,3 +137,33 @@ exports.editUser = async (req, res) => {
 		next(e);
 	}
 };
+
+// //get user
+// exports.allFav = (req, res) => {
+// 	const idUser = req.userId;
+// 	fav
+// 		.findAll({
+// 			where: {
+// 				user_id: idUser
+// 			},
+// 			attributes: {
+// 				exclude: [ 'createdAt', 'updatedAt' ]
+// 			},
+// 			include: [
+// 				{
+// 					model: event,
+// 					as: 'fave'
+// 				}
+// 			]
+// 		})
+// 		.then((data) => {
+// 			res.status(200).send({
+// 				fav: data
+// 			});
+// 		});
+// 	// .catch((err) => {
+// 	// 	res.status(500).json({
+// 	// 		message: err
+// 	// 	});
+// 	// });
+// };

@@ -1,18 +1,26 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 
+import { Link } from 'react-router-dom';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import {
+	AppBar,
+	ListItem,
+	ListItemText,
+	Toolbar,
+	Backdrop,
+	Typography,
+	MenuItem,
+	Button,
+	Modal,
+	Fade,
+	Menu
+} from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import Login from './Login';
+import Register from './Register';
 const useStyles = makeStyles((theme) => ({
 	grow: {
 		flexGrow: 1
@@ -75,6 +83,21 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+// get token from sign in localstorage
+var token = localStorage.getItem('auths');
+var auth = false;
+if (token === null) {
+	auth = false;
+} else {
+	auth = true;
+}
+
+//clear local storage for signout
+const signOut = () => {
+	localStorage.clear();
+	window.location = '/';
+};
+
 export default function PrimarySearchAppBar() {
 	const classes = useStyles();
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
@@ -99,7 +122,28 @@ export default function PrimarySearchAppBar() {
 	const handleMobileMenuOpen = (event) => {
 		setMobileMoreAnchorEl(event.currentTarget);
 	};
+	//handle Modal login
 
+	const [ openModalLogin, setOpenModalLogin ] = React.useState(false);
+
+	const handleOpenModalLogin = () => {
+		setOpenModalLogin(true);
+	};
+
+	const handleCloseModalLogin = () => {
+		setOpenModalLogin(false);
+	};
+	//handle Modal register
+
+	const [ openModalRegister, setOpenModalRegister ] = React.useState(false);
+
+	const handleOpenModalRegister = () => {
+		setOpenModalRegister(true);
+	};
+
+	const handleCloseModalRegister = () => {
+		setOpenModalRegister(false);
+	};
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
@@ -110,9 +154,30 @@ export default function PrimarySearchAppBar() {
 			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			open={isMenuOpen}
 			onClose={handleMenuClose}
+			style={{ marginTop: '30px' }}
 		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+			<ListItem>
+				<Link to="/newstory" style={{ color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
+					{' '}
+					<ListItemText primary="Profile" />
+				</Link>
+			</ListItem>
+			<ListItem>
+				<Link to="/newstory" style={{ color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
+					{' '}
+					<ListItemText primary="My Tiket" />
+				</Link>
+			</ListItem>
+			<ListItem>
+				<Link to="/newstory" style={{ color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
+					{' '}
+					<ListItemText primary="Payment" />
+				</Link>
+			</ListItem>
+
+			<ListItem style={{ cursor: 'pointer', color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
+				<ListItemText primary="SignOut" onClick={signOut} />
+			</ListItem>
 		</Menu>
 	);
 
@@ -127,31 +192,15 @@ export default function PrimarySearchAppBar() {
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}
 		>
-			<MenuItem>
-				<IconButton aria-label="show 4 new mails" color="inherit">
-					<Badge badgeContent={4} color="secondary">
-						<MailIcon />
-					</Badge>
-				</IconButton>
-				<p>Messages</p>
-			</MenuItem>
-			<MenuItem>
-				<IconButton aria-label="show 11 new notifications" color="inherit">
-					<Badge badgeContent={11} color="secondary">
-						<NotificationsIcon />
-					</Badge>
-				</IconButton>
-				<p>Notifications</p>
-			</MenuItem>
 			<MenuItem onClick={handleProfileMenuOpen}>
-				<IconButton
+				<Button
 					aria-label="account of current user"
 					aria-controls="primary-search-account-menu"
 					aria-haspopup="true"
 					color="inherit"
 				>
 					<AccountCircle />
-				</IconButton>
+				</Button>
 				<p>Profile</p>
 			</MenuItem>
 		</Menu>
@@ -159,28 +208,92 @@ export default function PrimarySearchAppBar() {
 
 	return (
 		<div className={classes.grow}>
-			<AppBar position="static" style={{ backgroundColor: '#ff5252' }}>
+			<AppBar position="static" style={{ backgroundColor: '#ef9a9a' }}>
 				<Toolbar>
-					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
-						<MenuIcon />
-					</IconButton>
-					<Typography className={classes.title} variant="h6" noWrap>
-						DUMB TICK
+					<Typography className={classes.title} variant="h5" noWrap>
+						<Link to="/" style={{ color: '#FFFFFF', textDecoration: 'none' }}>
+							DUMBTICK{' '}
+						</Link>
 					</Typography>
 
 					<div className={classes.grow} />
-					<div style={{ textAlign: 'left', display: 'flex', width: '20%' }}>
-						<Link
-							href="../pages/register"
-							variant="body2"
-							style={{ paddingRight: '20px', color: '#ffffff' }}
-						>
-							Register
-						</Link>
-						<Link href="../pages/login" variant="body2" style={{ paddingRight: '20px', color: '#ffffff' }}>
-							Login
-						</Link>
+					<div className={classes.sectionDesktop}>
+						{auth || (
+							<div>
+								<Button
+									aria-label="show 17 new notifications"
+									color="inherit"
+									onClick={handleOpenModalRegister}
+								>
+									<SupervisorAccountIcon />
+									<Typography variant="body2" noWrap style={{ marginTop: '8px' }}>
+										Register
+									</Typography>
+								</Button>
+								<Button
+									aria-label="show 17 new notifications"
+									color="inherit"
+									onClick={handleOpenModalLogin}
+								>
+									<LockOpenIcon />{' '}
+									<Typography variant="body2" noWrap style={{ marginTop: '8px' }}>
+										Login
+									</Typography>
+								</Button>
+							</div>
+						)}
+						{auth && (
+							<div>
+								<Button
+									edge="end"
+									aria-label="account of current user"
+									aria-controls={menuId}
+									aria-haspopup="true"
+									onClick={handleProfileMenuOpen}
+									color="inherit"
+								>
+									<AccountCircle />
+								</Button>
+							</div>
+						)}
 					</div>
+
+					<Modal
+						aria-labelledby="transition-modal-title"
+						aria-describedby="transition-modal-description"
+						className={classes.modal}
+						open={openModalLogin}
+						onClose={handleCloseModalLogin}
+						closeAfterTransition
+						BackdropComponent={Backdrop}
+						BackdropProps={{
+							timeout: 500
+						}}
+					>
+						<Fade in={openModalLogin}>
+							<div>
+								<Login />
+							</div>
+						</Fade>
+					</Modal>
+					<Modal
+						aria-labelledby="transition-modal-title"
+						aria-describedby="transition-modal-description"
+						className={classes.modal}
+						open={openModalRegister}
+						onClose={handleCloseModalRegister}
+						closeAfterTransition
+						BackdropComponent={Backdrop}
+						BackdropProps={{
+							timeout: 500
+						}}
+					>
+						<Fade in={openModalRegister}>
+							<div>
+								<Register />
+							</div>
+						</Fade>
+					</Modal>
 				</Toolbar>
 			</AppBar>
 			{renderMobileMenu}

@@ -41,12 +41,11 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  margin: 0 auto;
   min-height: 8vh;
 }
 
 .nav-links {
-  width: 30%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -83,7 +82,5 @@ nav {
 }
 
 .mediaSection {
-  width: 100%;
-  height: 30%;
   padding-top: 1%;
 }

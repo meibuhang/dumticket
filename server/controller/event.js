@@ -1,7 +1,10 @@
+const models = require('../models');
+
 const cat = require('../models').category;
 const event = require('../models').event;
 const users = require('../models').user;
 const roles = require('../models').role;
+const favorite = models.favorite;
 console.log('Processing func -> Article by Category');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -151,7 +154,7 @@ exports.allEvent = (req, res) => {
 			],
 
 			order: [ [ 'createdAt', 'DESC' ] ],
-			limit: 20
+			limit: 10
 		})
 		.then((data) => {
 			res.status(200).send({
@@ -191,9 +194,9 @@ exports.eventName = (req, res) => {
 			],
 
 			order: [ [ 'createdAt', 'DESC' ] ],
-			limit: 20,
+			limit: 10,
 			where: {
-				name: { [Op.like]: '%' + eventName + '%' }
+				name: { [Op.substring]: '%' + eventName + '%' }
 			}
 		})
 		.then((data) => {
@@ -234,19 +237,39 @@ exports.eventDate = (req, res) => {
 			],
 
 			order: [ [ 'createdAt', 'DESC' ] ],
-			limit: 20,
+			limit: 10,
 			where: {
-				start_date: { [Op.like]: '%' + req.query.startdate + '%' }
+				start_date: { [Op.like]: '%' + eventDate + '%' }
 			}
 		})
 		.then((data) => {
 			res.status(200).send({
-				event: data
+				event: data,
+				success: true
 			});
 		})
 		.catch((err) => {
 			res.status(500).json({
-				message: err
+				message: err,
+				success: false
 			});
+		});
+};
+
+exports.showEventFav = (req, res) => {
+	event
+		.findAll({
+			include: [
+				{
+					model: users,
+					as: 'favorites',
+					through: {
+						model: favorite
+					}
+				}
+			]
+		})
+		.then((data) => {
+			res.send(data);
 		});
 };

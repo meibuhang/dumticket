@@ -1,5 +1,12 @@
 const Categories = require('../models').category;
+const event = require('../models').event;
+const users = require('../models').user;
+const roles = require('../models').role;
+console.log('Processing func -> Article by Category');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
+// add category
 exports.addCateggories = (req, res) => {
 	console.log('Processing func ->Categories');
 
@@ -32,6 +39,43 @@ exports.allCateggories = (req, res) => {
 		.catch((err) => {
 			res.status(500).json({
 				message: err
+			});
+		});
+};
+
+// allEventCategory;
+
+exports.allEventCategory = (req, res) => {
+	console.log('find events by category');
+	const idCat = req.params.idCat;
+	console.log(idCat);
+
+	// console.log(eventName);
+	event
+		.findAll({
+			include: [
+				{
+					model: Categories,
+					as: 'categories',
+					attributes: [ 'id', 'name' ]
+				}
+			],
+
+			order: [ [ 'createdAt', 'DESC' ] ],
+			limit: 10,
+			where: {
+				category_id: idCat
+			}
+		})
+		.then((data) => {
+			res.status(200).send({
+				category: data
+			});
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+				success: false
 			});
 		});
 };

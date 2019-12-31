@@ -5,9 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
-import { postUser } from '../_actions/user';
-// import * as auth from './api/auth';
+import * as auth from '../api/auth';
 import Container from '@material-ui/core/Container';
 const useStyles = makeStyles((theme) => ({
 	margin: {
@@ -15,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function LoginForm({ onSubmit }) {
+function Register({ onSubmit }) {
 	const classes = useStyles();
 
 	return (
@@ -55,7 +53,7 @@ function LoginForm({ onSubmit }) {
 									fullWidth
 									label="Email"
 									name="email"
-									type="text"
+									type="email"
 								/>
 
 								<TextField
@@ -85,14 +83,6 @@ function LoginForm({ onSubmit }) {
 								</Button>
 							</form>
 
-							<div className="tagForm">
-								<p>
-									No account?{' '}
-									<Link to="/pages/Login" className="Links">
-										Login
-									</Link>
-								</p>
-							</div>
 							<div className="tagFormFooter" />
 						</div>
 					</CardContent>
@@ -101,36 +91,46 @@ function LoginForm({ onSubmit }) {
 		</Container>
 	);
 }
-class Register extends React.Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		fullname: '', //sesuai permintaan state
-	// 		lastname: '',
-	// 		email: '',
-	// 		username: '',
-	// 		password: '',
-	// 		index: null
-	// 	};
-	// }
-	// handleSubmit = (event) => {
-	// 	const fullname = event.target.fullname.value;
-	// 	const lastname = event.target.lastname.value;
-	// 	const email = event.target.email.value;
-	// 	const username = event.target.username.value;
-	// 	const password = event.target.password.value;
+class register extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			fullname: '', //sesuai permintaan state
+			lastname: '',
+			email: '',
+			username: '',
+			password: '',
+			role: 'user',
+			error: {}
+		};
+	}
 
-	// 	// auth
-	// 	// 	.login({ username, password })
-	// 	// 	.then(() => {
-	// 	// 		this.props.history.push('/home'); //direct halaman
-	// 	// 	})
-	// 	// 	.catch((error) => {
-	// 	// 		alert('Gagal login');
+	handleInputChange = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	};
 
-	// 	// 		throw error;
-	// 	// 	});
-	// };
+	handleSubmit = (event) => {
+		const newUser = {
+			fullname: event.target.fullname.value,
+			lastname: event.target.lastname.value,
+			email: event.target.email.value,
+			username: event.target.username.value,
+			password: event.target.password.value
+		};
+
+		auth
+			.register(newUser)
+			.then(() => {
+				window.location = '/'; //direct halaman
+			})
+			.catch((error) => {
+				alert('bad request');
+
+				throw error;
+			});
+	};
 	// handleChange = (type, value) => {
 	// 	if (type == 'fullname') this.setState({ fullname: value });
 	// 	if (type == 'lastname') this.setState({ lastname: value });
@@ -149,9 +149,9 @@ class Register extends React.Component {
 	render() {
 		return (
 			<div>
-				<LoginForm onSubmit={this.handleSubmit} />
+				<Register onSubmit={this.handleSubmit} />
 			</div>
 		);
 	}
 }
-export default Register;
+export default register;

@@ -6,4 +6,5 @@ module.exports = function(app) {
 	app.get('/api/dumbticket/event/allevent', controller.allEvent);
 	app.get('/api/dumbticket/event/title', controller.eventName);
 	app.get('/api/dumbticket/event/start_date', controller.eventDate);
+	app.get('/api/dumbticket/event/favorite', controller.showEventFav);
 };
