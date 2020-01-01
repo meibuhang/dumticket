@@ -36,6 +36,8 @@ const wrapping = (dataevents, dataUsers, dataCategories) => {
 	};
 	return wrap;
 };
+
+
 //add user
 exports.addEvent = async (req, res, next) => {
 	const idUser = req.userId;

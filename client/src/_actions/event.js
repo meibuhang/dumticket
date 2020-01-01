@@ -1,8 +1,8 @@
-import { GET_EVENT, GET_NEXTEVENT } from '../config/constants';
+import { GET_EVENT, GET_NEXTEVENT, GET_DETAILEVENT } from '../config/constants';
 import axios from 'axios';
 
 //All Event
-
+//event today
 export const getEvent = () => {
 	let today = new Date();
 	let dd = String(today.getDate()).padStart(2, '0');
@@ -19,6 +19,7 @@ export const getEvent = () => {
 	};
 };
 
+//event tomorrow
 export const getNextEvent = () => {
 	let next = new Date();
 
@@ -32,6 +33,17 @@ export const getNextEvent = () => {
 		payload: axios({
 			method: 'GET',
 			url: 'http://localhost:4500/api/dumbticket/event/start_date/?startdate=' + next
+		})
+	};
+};
+
+//event detail
+export const getDetailEvent = (idEvent) => {
+	return {
+		type: GET_DETAILEVENT,
+		payload: axios({
+			method: 'GET',
+			url: 'http://localhost:4500/api/dumbticket/category/event/' + idEvent
 		})
 	};
 };

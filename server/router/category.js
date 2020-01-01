@@ -3,4 +3,5 @@ module.exports = function(app) {
 	app.post('/api/dumbticket/category/addcategory', categories.addCateggories);
 	app.get('/api/dumbticket/category/allcategory', categories.allCateggories);
 	app.get('/api/dumbticket/category/:idCat/allevent', categories.allEventCategory);
+	app.get('/api/dumbticket/category/event/:idEvent', categories.detailEvent);
 };

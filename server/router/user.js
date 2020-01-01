@@ -10,4 +10,7 @@ module.exports = function(app) {
 
 	// edit
 	app.put('/api/dumbticket/auth/edituser', [ jwt.authorized ], controller.editUser);
+	
+	// get
+	app.get('/api/dumbticket/auth/getuser', [ jwt.authorized ], controller.getUser);
 };

@@ -10,6 +10,7 @@ import Nav from './component/Nav';
 import Home from './pages/Home';
 import Register from './component/Register';
 import Eventcat from './pages/Eventcat';
+import Detailevent from './pages/Detailevent';
 // import {getCategories} from './_actions/categories'
 // class App extends Component{
 //   constructor(props){
@@ -49,6 +50,7 @@ class App extends Component {
 						<Route path="/component/Logout" component={Login} />>
 						<Route path="/component/Nav" component={Nav} />
 						<Route path="/component/Register" component={Register} />
+						<Route path="/pages/Detailevent/:idEvent" component={Detailevent} />
 						<Route path="/" component={Home} />
 					</Switch>
 				</div>

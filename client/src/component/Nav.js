@@ -157,7 +157,7 @@ export default function PrimarySearchAppBar() {
 			style={{ marginTop: '30px' }}
 		>
 			<ListItem>
-				<Link to="/newstory" style={{ color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
+				<Link to="/pages/profile" style={{ color: '#424242', margin: '0 5px', textDecoration: 'none' }}>
 					{' '}
 					<ListItemText primary="Profile" />
 				</Link>
@@ -208,7 +208,7 @@ export default function PrimarySearchAppBar() {
 
 	return (
 		<div className={classes.grow}>
-			<AppBar position="static" style={{ backgroundColor: '#ef9a9a' }}>
+			<AppBar position="static" style={{ backgroundColor: '#d32f2f' }}>
 				<Toolbar>
 					<Typography className={classes.title} variant="h5" noWrap>
 						<Link to="/" style={{ color: '#FFFFFF', textDecoration: 'none' }}>

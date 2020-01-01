@@ -76,14 +76,11 @@ exports.allFav = (req, res) => {
 				exclude: [ 'createdAt', 'updatedAt' ]
 			}
 		})
-		.then((data) => {
-			res.status(200).send({
-				fav: data
-			});
+		.then(data => {
+			res.status(200).send(data);
+		}) .catch((err) => {
+		res.status(500).json({
+			message: err
 		});
-	// .catch((err) => {
-	// 	res.status(500).json({
-	// 		message: err
-	// 	});
-	// });
+	});
 };

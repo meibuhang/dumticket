@@ -84,43 +84,48 @@ const signOut = () => {
 
 export default function PrimarySearchAppBar() {
 	return (
-		<div style={{ backgroundColor: '#ef9a9a' }}>
-			<Grid container spacing={4}>
+		<div style={{ backgroundColor: '#d32f2f', color: '#fff' }}>
+			<Grid container spacing={4} style={{ margin: '5% 10% 0 0' }}>
 				<Grid item xs={4}>
-					<div style={{ diplay: 'flex', flexDirection: 'column', margin: '5% 10%', color: '#fff' }}>
-						<Typography variant="subtitle">
+					<div style={{ diplay: 'flex', flexDirection: 'column', color: '#fff' }}>
+						<Typography variant="caption">
 							DumbTick is web-based platform that provides tickets for varios event around sports music
 							science and Programming
 						</Typography>
 					</div>
 				</Grid>
 				{/* about us */}
-				<Grid item xs={4}>
+				<Grid item xs={4} style={{alignItems:'center'}}>
 					<div
 						style={{
-							margin: '5% 10%',
-							color: '#fff',
 							display: 'flex',
 							flexDirection: 'column',
-							lineHeight: '30px'
+							lineHeight: '10px',
+							margin: '0 10%',
+							justifyContent:'center'
 						}}
 					>
-						<Typography variant="subtitle">Link About us :</Typography>
-
-						<Typography variant="subtitle">Follow us On :</Typography>
-						<Typography variant="subtitle">
-							<InstagramIcon /> Instagram
+						<Typography variant="subtitle1" style={{ textDecoration: 'underline' }}>
+							Link About us :
 						</Typography>
-						<Typography variant="subtitle">
-							<TwitterIcon /> Twitter
-						</Typography>
+						
+						<div style={{ display: 'flex', paddingTop: '15px', fontWeight: 'Bold', alignItems: 'center' }}>
+								<InstagramIcon />  &nbsp;
+							<Typography variant="caption">Instagram
+							</Typography>
+						</div>
+						<div style={{ display: 'flex', paddingTop: '15px', fontWeight: 'Bold', alignItems: 'center' }}>
+						<TwitterIcon />  &nbsp;
+							<Typography variant="caption">Twitter
+							</Typography>
+						</div>
 					</div>
 				</Grid>
 				{/* have a question ? */}
 				<Grid item xs={4}>
 					<div
 						style={{
-							margin: '5% 10%',
+							margin: '0 10%',
 							color: '#fff',
 							display: 'flex',
 							flexDirection: 'column',
@@ -129,8 +134,8 @@ export default function PrimarySearchAppBar() {
 					>
 						<Typography variant="h6">Have a Question ?</Typography>
 
-						<Typography variant="subtitle">DumbTick</Typography>
-						<Typography variant="subtitle">Email : Support@dumbtick.com</Typography>
+						<Typography variant="subtitle1">DumbTick</Typography>
+						<Typography variant="subtitle1">Email : Support@dumbtick.com</Typography>
 					</div>
 				</Grid>
 			</Grid>

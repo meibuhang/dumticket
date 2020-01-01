@@ -79,3 +79,38 @@ exports.allEventCategory = (req, res) => {
 			});
 		});
 };
+
+exports.detailEvent = (req, res) => {
+	console.log('find events by category');
+	
+	const idEvent = req.params.idEvent;
+	// console.log(eventName);
+	event
+		.findOne({
+			include: [
+				{
+					model: Categories,
+					as: 'categories',
+					attributes: [ 'name' ],
+				},
+				{
+					model: users,
+					as: 'user',
+					attributes: [ 'fullname','phone','image','email' ],
+				}
+
+			],
+			where: {
+				id: idEvent
+			}
+		})
+		.then((data) => {
+			res.status(200).send(data);
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: err,
+				success: false
+			});
+		});
+};

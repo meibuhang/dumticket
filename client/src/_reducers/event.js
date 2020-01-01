@@ -1,8 +1,8 @@
-import { GET_EVENT, GET_NEXTEVENT } from '../config/constants.js';
+import { GET_EVENT, GET_NEXTEVENT, GET_DETAILEVENT } from '../config/constants.js';
 
 // yg akan pertama kali di baca :
 const initialState = {
-	data: [],
+	event: [],
 	isLoading: false,
 	isPost: false,
 	error: false
@@ -13,6 +13,13 @@ const nextinitialState = {
 	isLoadings: false,
 	isPosts: false,
 	errors: false
+};
+
+const detailinitialState = {
+	detail: [],
+	isLoadingDetail: false,
+	isPostDetail: false,
+	errorDetail: false
 };
 
 export const event = (state = initialState, action) => {
@@ -26,7 +33,7 @@ export const event = (state = initialState, action) => {
 		case `${GET_EVENT}_FULFILLED`:
 			return {
 				...state,
-				data: action.payload.data.event,
+				event: action.payload.data.event,
 				isLoading: false
 			};
 		case `${GET_EVENT}_REJECTED`:
@@ -59,11 +66,42 @@ export const events = (states = nextinitialState, actions) => {
 		case `${GET_NEXTEVENT}_REJECTED`:
 			return {
 				...states,
-				error: true,
+				errors: true,
 				isLoadings: false
 			};
 
 		default:
 			return states;
+	}
+};
+
+//export for detail event by cat
+
+//exports again bcz have same endpoint wt get_event
+export const detailEvent = (statesEvent = detailinitialState, actionsEvent) => {
+	switch (actionsEvent.type) {
+		//NEXT EVENT
+
+		//Detail Event
+		case `${GET_DETAILEVENT}_PENDING`:
+			return {
+				...statesEvent,
+				isLoadingDetail: true
+			};
+		case `${GET_DETAILEVENT}_FULFILLED`:
+			return {
+				...statesEvent,
+				detail: actionsEvent.payload.data,
+				isLoadingDetail: false
+			};
+		case `${GET_DETAILEVENT}_REJECTED`:
+			return {
+				...statesEvent,
+				errorDetail: true,
+				isLoadingDetail: false
+			};
+
+		default:
+			return statesEvent;
 	}
 };

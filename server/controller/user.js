@@ -138,32 +138,24 @@ exports.editUser = async (req, res) => {
 	}
 };
 
-// //get user
-// exports.allFav = (req, res) => {
-// 	const idUser = req.userId;
-// 	fav
-// 		.findAll({
-// 			where: {
-// 				user_id: idUser
-// 			},
-// 			attributes: {
-// 				exclude: [ 'createdAt', 'updatedAt' ]
-// 			},
-// 			include: [
-// 				{
-// 					model: event,
-// 					as: 'fave'
-// 				}
-// 			]
-// 		})
-// 		.then((data) => {
-// 			res.status(200).send({
-// 				fav: data
-// 			});
-// 		});
-// 	// .catch((err) => {
-// 	// 	res.status(500).json({
-// 	// 		message: err
-// 	// 	});
-// 	// });
-// };
+//get user
+exports.getUser = (req, res) => {
+	const idUser = req.userId;
+	users
+		.findOne({
+			where: {
+				id: idUser
+			},
+			attributes: {
+				exclude: [ 'createdAt', 'updatedAt','password' ]
+			}
+		})
+		.then(data => {
+			res.send(data);
+		})
+	.catch((err) => {
+		res.status(500).json({
+			message: err
+		});
+	});
+};
