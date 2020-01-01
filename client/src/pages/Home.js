@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
 import Category from "../component/Category";
@@ -18,40 +19,9 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { connect } from "react-redux";
 import { getEvent, getNextEvent } from "../_actions/event";
 import axios from "axios";
-import Alertfav from "../component/Alertfav.Js";
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: "",
-      isLoading: false
-    };
-    this.click = this.click.bind(this);
-  }
+import BtnFav from "../component/BtnFav";
 
-  click = item_id => event => {
-    event.preventDefault();
-    // alert(item_id);
-    const token = localStorage.getItem("auths");
-    console.log(token, "ini token");
-    console.log(item_id, "ini id");
-    axios({
-      method: "post",
-      url: "http://localhost:4500/api/dumbticket/event/addFav",
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-      data: {
-        event_id: item_id
-      }
-    })
-      .then(response => {
-        this.setState({ data: response.data, isLoading: false });
-      })
-      .catch(err => {
-        this.setState({ data: err, isLoading: false });
-      });
-  };
+class Home extends Component {
   componentDidMount() {
     this.props.getEvent();
     this.props.getNextEvent();
@@ -86,12 +56,28 @@ class Home extends Component {
             <Divider />
             <div style={{ marginTop: "2%" }}>
               <Grid container spacing={4} style={{ margin: "30px 0" }}>
-                {event.length === 0 && <h4>No Data</h4>}
+                {event.length === 0 && (
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    style={{
+                      color: "#212121",
+                      fontWeight: "bold",
+                      alignItems: "center",
+                      textAlign: "center"
+                    }}
+                  >
+                    Oups....No Data :({" "}
+                  </Typography>
+                )}
                 {event.map((item, index) => {
                   return (
                     <Grid item xs={4} key={index}>
                       <Card>
-                        <CardActionArea>
+                        <Link
+                          to={"/pages/Detailevent/" + item.id}
+                          style={{ textDecoration: "none" }}
+                        >
                           <CardMedia
                             component="img"
                             alt="Contemplative Reptile"
@@ -99,7 +85,11 @@ class Home extends Component {
                             image={item.image}
                           />
                           <CardContent>
-                            <Typography gutterBottom variant="h6">
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              style={{ color: "#212121", fontWeight: "bold" }}
+                            >
                               {item.name}
                             </Typography>
                             <Typography
@@ -117,7 +107,7 @@ class Home extends Component {
                               {item.detail_event.substring(0, 200)}
                             </Typography>
                           </CardContent>
-                        </CardActionArea>
+                        </Link>
                         <CardActions>
                           <Button
                             size="small"
@@ -125,16 +115,11 @@ class Home extends Component {
                               backgroundColor: "#d50000",
                               color: "#fff"
                             }}
+                            disabled
                           >
                             Rp {item.price}
                           </Button>
-                          <IconButton
-                            aria-label="add to favorites"
-                            style={{ color: "#d50000" }}
-                            onClick={this.click(item.id)}
-                          >
-                            <FavoriteIcon />
-                          </IconButton>
+                          <BtnFav event_id={item.id} />
                         </CardActions>
                       </Card>
                     </Grid>
@@ -151,12 +136,28 @@ class Home extends Component {
             <Divider />
             <div style={{ marginTop: "2%" }}>
               <Grid container spacing={4} style={{ margin: "30px 0" }}>
-                {datas.length === 0 && <h4>No Data</h4>}
+                {datas.length === 0 && (
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    style={{
+                      color: "#212121",
+                      fontWeight: "bold",
+                      alignItems: "center",
+                      textAlign: "center"
+                    }}
+                  >
+                    Oups....No Data :({" "}
+                  </Typography>
+                )}
                 {datas.map((items, indexs) => {
                   return (
                     <Grid item xs={4} key={indexs}>
                       <Card>
-                        <CardActionArea>
+                        <Link
+                          to={"/pages/Detailevent/" + items.id}
+                          style={{ textDecoration: "none" }}
+                        >
                           <CardMedia
                             component="img"
                             alt="Contemplative Reptile"
@@ -165,7 +166,11 @@ class Home extends Component {
                             title="Contemplative Reptile"
                           />
                           <CardContent>
-                            <Typography gutterBottom variant="h6">
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              style={{ color: "#212121", fontWeight: "bold" }}
+                            >
                               {items.name}
                             </Typography>
                             <Typography
@@ -183,7 +188,7 @@ class Home extends Component {
                               {items.detail_event.substring(0, 200)}
                             </Typography>
                           </CardContent>
-                        </CardActionArea>
+                        </Link>
                         <CardActions>
                           <Button
                             size="small"
@@ -191,18 +196,11 @@ class Home extends Component {
                               backgroundColor: "#d50000",
                               color: "#fff"
                             }}
+                            disabled
                           >
                             Rp {items.price}
                           </Button>
-                          <IconButton
-                            aria-label="add to favorites"
-                            style={{ color: "#d50000" }}
-
-                            // onClick={this.click(items.id)}
-                            // disabled={this.state.isLoading}
-                          >
-                            <FavoriteIcon />
-                          </IconButton>
+                          <BtnFav event_id={items.id} />
                         </CardActions>
                       </Card>
                     </Grid>
@@ -234,7 +232,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
