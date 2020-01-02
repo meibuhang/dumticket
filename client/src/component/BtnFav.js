@@ -60,7 +60,10 @@ export default class BtnFav extends Component {
   render() {
     if (this.state.success === false) {
       return (
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          aria-label="add to favorites"
+          onClick={this.click(this.props.event_id)}
+        >
           <FavoriteIcon />
         </IconButton>
       );

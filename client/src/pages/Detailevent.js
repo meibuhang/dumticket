@@ -11,6 +11,10 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PhoneIcon from "@material-ui/icons/Phone";
 import MailIcon from "@material-ui/icons/Mail";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import LinkIcon from "@material-ui/icons/Link";
+import Orderticket from "../component/Orderticket";
 class Detailevent extends Component {
   componentDidMount() {
     this.props.getDetailEvent(this.props.idEvent);
@@ -120,16 +124,18 @@ class Detailevent extends Component {
                       padding: "15px"
                     }}
                   >
-                    {/* <Avatar src={data.image} style={{ width: '200px', height: '200px' }} /> */}{" "}
-                    <Button
-                      variant="contained"
+                    <Typography
+                      variant="body2"
                       style={{
-                        backgroundColor: "#d50000",
-                        color: "#fff"
+                        color: "#d50000",
+                        fontWeight: "bold",
+                        margin: "10px 0"
                       }}
                     >
-                      Rp {detail.price}{" "}
-                    </Button>{" "}
+                      ( Rp {detail.price} ) &nbsp;
+                    </Typography>{" "}
+                    {/* <Avatar src={data.image} style={{ width: '200px', height: '200px' }} /> */}{" "}
+                    <Orderticket event_id={detail.id} price={detail.price} />
                   </div>{" "}
                 </Grid>{" "}
                 <Divider
@@ -374,8 +380,66 @@ class Detailevent extends Component {
                         <iframe
                           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9488.218675602295!2d119.88352628363918!3d-0.91950962212741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x695b6e0ad9a54dcd!2sBest%20Western%20Plus%20Coco%20Palu!5e0!3m2!1sid!2sid!4v1577884281279!5m2!1sid!2sid"
                           width="400"
-                          height="300"
+                          height="150"
                         ></iframe>
+                      </div>
+                    </div>
+
+                    {/* share button */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        color: "#424242",
+                        paddingTop: "30px"
+                      }}
+                    >
+                      <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                        Share
+                      </Typography>
+                      <div
+                        style={{
+                          display: "flex",
+
+                          color: "#424242",
+                          paddingTop: "30px",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          style={{
+                            marginRight: "30px",
+                            backgroundColor: "#448aff"
+                          }}
+                          startIcon={<TwitterIcon />}
+                        >
+                          Twitter
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          style={{ marginRight: "30px" }}
+                          startIcon={<FacebookIcon />}
+                        >
+                          Facebook
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="small"
+                          style={{
+                            marginRight: "30px",
+                            backgroundColor: "#616161"
+                          }}
+                          startIcon={<LinkIcon />}
+                        >
+                          Copy Link
+                        </Button>
                       </div>
                     </div>
                   </Grid>
