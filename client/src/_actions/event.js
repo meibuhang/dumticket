@@ -1,4 +1,9 @@
-import { GET_EVENT, GET_NEXTEVENT, GET_DETAILEVENT } from "../config/constants";
+import {
+  GET_EVENT,
+  GET_NEXTEVENT,
+  GET_DETAILEVENT,
+  GET_SEARCHEVENT
+} from "../config/constants";
 import axios from "axios";
 
 //All Event
@@ -48,6 +53,17 @@ export const getDetailEvent = idEvent => {
     payload: axios({
       method: "GET",
       url: "http://localhost:4500/api/dumbticket/category/event/" + idEvent
+    })
+  };
+};
+
+//Search Event
+export const getSearchevent = name => {
+  return {
+    type: GET_SEARCHEVENT,
+    payload: axios({
+      method: "GET",
+      url: "http://localhost:4500/api/dumbticket/event/title/" + name
     })
   };
 };

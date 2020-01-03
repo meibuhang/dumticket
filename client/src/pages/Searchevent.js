@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
 import Category from "../component/Category";
+
+import { withRouter } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -18,19 +20,19 @@ import {
 } from "@material-ui/core";
 
 import { connect } from "react-redux";
-import { getEvent, getNextEvent } from "../_actions/event";
+import { getSearchevent } from "../_actions/event";
 import { Search } from "@material-ui/icons";
 import BtnFav from "../component/BtnFav";
+import { searchEvent } from "../_reducers/event";
 
-class Home extends Component {
+class Searchevent extends Component {
   componentDidMount() {
-    this.props.getEvent();
-    this.props.getNextEvent();
+    this.props.getSearchevent(this.props.name);
+    console.log(this.props.location.search);
   }
   render() {
-    const { event, isLoading, error } = this.props.event;
-    const { datas, isLoadings, errors } = this.props.events;
-    if (error || errors) {
+    const { dataSearch, isLoadingSearch, errorSearch } = this.props.search;
+    if (errorSearch) {
       return (
         <div>
           <h1>error</h1>
@@ -38,7 +40,7 @@ class Home extends Component {
       );
     }
 
-    if (isLoading || isLoadings) {
+    if (isLoadingSearch) {
       return (
         <div>
           <h1>Now Loading</h1>
@@ -68,12 +70,12 @@ class Home extends Component {
             <Category />
             <div style={{ marginTop: "10px" }}>
               <Typography variant="h5" style={{ fontWeight: "Bold" }}>
-                Today Event
+                Event
               </Typography>
               <Divider />
               <div style={{ marginTop: "2%" }}>
                 <Grid container spacing={4} style={{ margin: "30px 0" }}>
-                  {event.length === 0 && (
+                  {dataSearch.length === 0 && (
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -87,7 +89,7 @@ class Home extends Component {
                       Oups....No Data :({" "}
                     </Typography>
                   )}
-                  {event.map((item, index) => {
+                  {dataSearch.map((item, index) => {
                     return (
                       <Grid item xs={4} key={index}>
                         <Card>
@@ -146,86 +148,6 @@ class Home extends Component {
               </div>
             </div>
             {/* NEXT EVENT */}
-            <div style={{ marginTop: "5%" }}>
-              <Typography variant="h5" style={{ fontWeight: "Bold" }}>
-                Up Coming Event
-              </Typography>
-              <Divider />
-              <div style={{ marginTop: "2%" }}>
-                <Grid container spacing={4} style={{ margin: "30px 0" }}>
-                  {datas.length === 0 && (
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      style={{
-                        color: "#212121",
-                        fontWeight: "bold",
-                        alignItems: "center",
-                        textAlign: "center"
-                      }}
-                    >
-                      Oups....No Data :({" "}
-                    </Typography>
-                  )}
-                  {datas.map((items, indexs) => {
-                    return (
-                      <Grid item xs={4} key={indexs}>
-                        <Card>
-                          <Link
-                            to={"/pages/Detailevent/" + items.id}
-                            style={{ textDecoration: "none" }}
-                          >
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="140"
-                              image={items.image}
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography
-                                gutterBottom
-                                variant="h6"
-                                style={{ color: "#212121", fontWeight: "bold" }}
-                              >
-                                {items.name}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                component="p"
-                                style={{ color: "#d50000", fontWeight: "bold" }}
-                              >
-                                {items.start_date.substring(0, 200)}
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                              >
-                                {items.detail_event.substring(0, 200)}
-                              </Typography>
-                            </CardContent>
-                          </Link>
-                          <CardActions>
-                            <Button
-                              size="small"
-                              style={{
-                                backgroundColor: "#d50000",
-                                color: "#fff"
-                              }}
-                              disabled
-                            >
-                              Rp {items.price}
-                            </Button>
-                            <BtnFav event_id={items.id} />
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    );
-                  })}
-                </Grid>
-              </div>
-            </div>
           </div>
         </div>
         <Footer />
@@ -233,21 +155,20 @@ class Home extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    event: state.event,
-    events: state.events
+    search: state.searchEvent,
+    name: ownProps.location.search
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getEvent: () => {
-      dispatch(getEvent());
-    },
-    getNextEvent: () => {
-      dispatch(getNextEvent());
+    getSearchevent: name => {
+      dispatch(getSearchevent(name));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Searchevent)
+);

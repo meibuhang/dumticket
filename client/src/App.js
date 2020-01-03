@@ -16,6 +16,7 @@ import Detailevent from "./pages/Detailevent";
 import Myticket from "./pages/Myticket";
 import Payment from "./pages/Payment";
 import Addevent from "./pages/Addevent";
+import Searchevent from "./pages/Searchevent";
 class App extends Component {
   render() {
     return (
@@ -36,6 +37,8 @@ class App extends Component {
             <Route path="/pages/Addevent" component={Addevent} />
             <Route path="/pages/Payment" component={Payment} />
             <Route path="/pages/Editprofile" component={Editprofile} />
+            <Route path="/pages/Searchevent/?name=" component={Searchevent} />
+            <Route path="/pages/Searchevent/" component={Searchevent} />
             <Route
               path="/component/Orderticket/:idEvent"
               component={Orderticket}
