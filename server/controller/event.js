@@ -48,79 +48,69 @@ exports.addEvent = async (req, res, next) => {
     });
     // console.log(idUser);
     // console.log(roleUser.role);
-    const roless = roleUser.role;
+    const roless = roleUser.id;
+    console.log(roless);
     if (!roleUser) {
       res.status(404).json({
         msg: "Not Found"
       });
     } else {
-      if (roless == "eo") {
-        // let fdate =  req.body.start_date;
-        // let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-        let data = {
-          category_id: req.body.category_id,
-          name: req.body.name,
-          detail_event: req.body.detail_event,
-          image: req.body.image,
-          start_date: req.body.start_date,
-          end_date: req.body.end_date,
-          start_time: req.body.start_time,
-          end_time: req.body.end_time,
-          price: req.body.price,
-          location: req.body.location,
-          url_maps: req.body.url_maps,
-          user_id: idUser,
-          role: roleUser.id
-        };
+      let data = {
+        category_id: req.body.category_id,
+        name: req.body.name,
+        detail_event: req.body.detail_event,
+        image: req.body.image,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        price: req.body.price,
+        location: req.body.location,
+        url_maps: req.body.url_maps,
+        user_id: idUser,
+        role: roless
+      };
 
-        const errors = [];
-        // //validasi input
-        if (!data.category_id) errors.push("`category` is required");
-        if (!data.name) errors.push("`name` is required");
-        if (!data.detail_event) errors.push("`detail event` is required");
-        if (!data.image) errors.push("`image` is required");
-        if (!data.start_date) errors.push("`start date` is required");
-        if (!data.end_date) errors.push("`end date` is required");
-        if (!data.start_time) errors.push("`start time` is required");
-        if (!data.end_time) errors.push("`end time` is required");
-        if (!data.price) errors.push("`price` is required");
-        if (!data.location) errors.push("`location` is required");
-        if (!data.url_maps) errors.push("`url_maps` is required");
-        const hasErrors = Boolean(errors.length);
-        if (hasErrors) {
-          return res.status(422).json({
-            errors: errors
-          });
-        }
-        event.create(data).then(dataevent => {
-          users
-            .findOne({
-              where: {
-                id: idUser
-              }
-            })
-            .then(dataUsers => {
-              cat
-                .findOne({
-                  where: {
-                    id: data.category_id
-                  }
-                })
-                .then(dataCategories => {
-                  const wrapped = wrapping(
-                    dataevent,
-                    dataUsers,
-                    dataCategories
-                  );
-                  res.status(200).send(wrapped);
-                });
-            });
-        });
-      } else {
-        res.status(401).json({
-          msg: "its only EO"
+      const errors = [];
+      // //validasi input
+      if (!data.category_id) errors.push("`category` is required");
+      if (!data.name) errors.push("`name` is required");
+      if (!data.detail_event) errors.push("`detail event` is required");
+      if (!data.image) errors.push("`image` is required");
+      if (!data.start_date) errors.push("`start date` is required");
+      if (!data.end_date) errors.push("`end date` is required");
+      if (!data.start_time) errors.push("`start time` is required");
+      if (!data.end_time) errors.push("`end time` is required");
+      if (!data.price) errors.push("`price` is required");
+      if (!data.location) errors.push("`location` is required");
+      if (!data.url_maps) errors.push("`url_maps` is required");
+      const hasErrors = Boolean(errors.length);
+      if (hasErrors) {
+        return res.status(422).json({
+          errors: errors
         });
       }
+      event.create(data).then(dataevent => {
+        users
+          .findOne({
+            where: {
+              id: idUser
+            }
+          })
+          .then(dataUsers => {
+            cat
+              .findOne({
+                where: {
+                  id: data.category_id
+                }
+              })
+              .then(dataCategories => {
+                const wrapped = wrapping(dataevent, dataUsers, dataCategories);
+                res.status(200).send(wrapped);
+              });
+          });
+      });
+
       // const hasErrors = Boolean(errors.length);
       // if (hasErrors) {
       // 	return res.status(422).json({

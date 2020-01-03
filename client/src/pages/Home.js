@@ -7,18 +7,16 @@ import {
   Button,
   Typography,
   Grid,
-  IconButton,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
   Divider
 } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+
 import { connect } from "react-redux";
 import { getEvent, getNextEvent } from "../_actions/event";
-import axios from "axios";
+
 import BtnFav from "../component/BtnFav";
 
 class Home extends Component {
@@ -45,11 +43,11 @@ class Home extends Component {
       );
     }
     return (
-      <div style={{ margin: "0 auto" }}>
+      <div style={{ margin: "auto" }}>
         <Nav />
         <div style={{ margin: "0 80px", justifyContent: "center" }}>
           <Category />
-          <div style={{ marginTop: "5%" }}>
+          <div style={{ marginTop: "10px" }}>
             <Typography variant="h5" style={{ fontWeight: "Bold" }}>
               Today Event
             </Typography>

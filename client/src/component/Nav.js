@@ -176,14 +176,22 @@ export default function PrimarySearchAppBar() {
       </ListItem>
       <ListItem>
         <Link
-          to="/newstory"
+          to="/pages/Payment"
           style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
         >
           {" "}
           <ListItemText primary="Payment" />
         </Link>
       </ListItem>
-
+      <ListItem>
+        <Link
+          to="/pages/Addevent"
+          style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
+        >
+          {" "}
+          <ListItemText primary="Add Event" />
+        </Link>
+      </ListItem>
       <ListItem
         style={{
           cursor: "pointer",

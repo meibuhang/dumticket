@@ -2,20 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
-import Category from "../component/Category";
-import {
-  Button,
-  Typography,
-  Grid,
-  IconButton,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Divider
-} from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { Typography, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getAllOrder } from "../_actions/order";
 function getDayOfWeek(date) {
@@ -82,12 +69,6 @@ class Myticket extends Component {
             </Typography>
           )}
           {dataOrder.map((item, index) => {
-            st = item.event.start_time;
-            let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-            let dt = new Date(st.replace(pattern, `$3-$2-$1`));
-            //  let day = dt.getDay();
-            console.log(dt);
-
             return (
               <div
                 style={{
@@ -164,10 +145,10 @@ class Myticket extends Component {
                           }}
                         >
                           <Typography
-                            variant="subtitle1"
+                            variant="subtitle2"
                             style={{
                               color: "#757575",
-                              fontSize: "10px",
+                              fontSize: "12px",
                               alignItems: "center",
                               textAlign: "left",
 
@@ -175,13 +156,13 @@ class Myticket extends Component {
                               marginBottom: "0"
                             }}
                           >
-                            Face Value : {item.event.price}
+                            HTM : {item.event.price}
                           </Typography>
                           <Typography
                             variant="subtitle2"
                             style={{
                               color: "#757575",
-
+                              fontSize: "12px",
                               alignItems: "center",
                               textAlign: "left",
                               fontWeight: "bold",
@@ -234,7 +215,7 @@ class Myticket extends Component {
                               textAlign: "left",
                               marginTop: "0",
                               marginBottom: "0",
-                              fontSize: "12px"
+                              fontSize: "14px"
                             }}
                           >
                             {getDayOfWeek(item.event.start_date)} &nbsp;
@@ -259,7 +240,7 @@ class Myticket extends Component {
                       <Grid item xs={2}>
                         <div
                           style={{
-                            marginLeft: "10%",
+                            margin: "5% 0 5% 10%",
                             alignItems: "center",
                             textAlign: "left"
                           }}

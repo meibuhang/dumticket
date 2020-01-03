@@ -7,7 +7,7 @@ import { event, events, detailEvent } from "../_reducers/event";
 import { eventByCategory } from "../_reducers/categories";
 import { user } from "../_reducers/user";
 import { userFav } from "../_reducers/favorite";
-import { Order } from "../_reducers/order";
+import { Order, Orderpending } from "../_reducers/order";
 //get all reducers available
 //global state come from here
 
@@ -19,7 +19,8 @@ const rootReducers = combineReducers({
   detailEvent,
   user,
   userFav,
-  Order
+  Order,
+  Orderpending
 });
 
 const store = createStore(rootReducers, applyMiddleware(promise, logger));

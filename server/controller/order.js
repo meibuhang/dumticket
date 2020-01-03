@@ -167,8 +167,11 @@ exports.allOrder = (req, res) => {
           attributes: ["fullname", "lastname", "email", "phone"]
         }
       ],
+      order: [["createdAt", "DESC"]],
+      limit: 10,
       where: {
-        user_id: idUser
+        user_id: idUser,
+        status: "aproved"
       }
     })
     .then(data => {
@@ -179,4 +182,88 @@ exports.allOrder = (req, res) => {
         message: err
       });
     });
+};
+
+exports.allOrderPending = (req, res) => {
+  console.log("Processing func -> order");
+  const idUser = req.userId;
+  orders
+    .findAll({
+      include: [
+        {
+          model: event,
+          as: "event",
+          attributes: [
+            "id",
+            "name",
+            "detail_event",
+            "start_date",
+            "start_time",
+            "price",
+            "location",
+            "image"
+          ]
+        },
+        {
+          model: users,
+          as: "user",
+          attributes: ["fullname", "lastname", "email", "phone"]
+        }
+      ],
+      order: [["createdAt", "DESC"]],
+      limit: 10,
+      where: {
+        user_id: idUser,
+        status: "pending"
+      }
+    })
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      });
+    });
+};
+//edit pending
+exports.editPending = async (req, res) => {
+  //const idUser = req.userId;
+  const orderId = req.params.idOrder;
+  try {
+    let dataOrder = await orders.findOne({
+      where: {
+        id: orderId
+      }
+    });
+    if (!dataOrder) {
+      res.status(404).json({
+        msg: "Not Found"
+      });
+    } else {
+      let input = {
+        status: "confirmed"
+      };
+      orders
+        .update(input, {
+          where: {
+            id: orderId
+          }
+        })
+        .then(updated => {
+          res.status(200).json({
+            msg: "updated",
+            data: updated
+          });
+        })
+        .catch(err => {
+          res.status(401).json({
+            msg: "Bad Request",
+            Error: err
+          });
+        });
+    }
+  } catch (e) {
+    next(e);
+  }
 };

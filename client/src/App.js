@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Category from "./component/Category";
 import Login from "./component/Login";
-
+import Editprofile from "./pages/Editprofile";
 import Orderticket from "./component/Orderticket";
 import Profile from "./pages/Profile";
 import Nav from "./component/Nav";
@@ -14,7 +14,8 @@ import Register from "./component/Register";
 import Eventcat from "./pages/Eventcat";
 import Detailevent from "./pages/Detailevent";
 import Myticket from "./pages/Myticket";
-
+import Payment from "./pages/Payment";
+import Addevent from "./pages/Addevent";
 class App extends Component {
   render() {
     return (
@@ -32,6 +33,9 @@ class App extends Component {
             <Route path="/component/Register" component={Register} />
             <Route path="/pages/Detailevent/:idEvent" component={Detailevent} />
             <Route path="/pages/Myticket" component={Myticket} />
+            <Route path="/pages/Addevent" component={Addevent} />
+            <Route path="/pages/Payment" component={Payment} />
+            <Route path="/pages/Editprofile" component={Editprofile} />
             <Route
               path="/component/Orderticket/:idEvent"
               component={Orderticket}

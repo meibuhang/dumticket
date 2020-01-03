@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../component/Nav";
 import Footer from "../component/Footer";
-import Category from "../component/Category";
 import {
   Button,
   Typography,
@@ -15,9 +14,9 @@ import {
   CardMedia,
   Divider
 } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import axios from "axios";
 import { connect } from "react-redux";
-import { getAllOrder } from "../_actions/order";
+import { getOrderpending } from "../_actions/order";
 function getDayOfWeek(date) {
   let dayOfWeek = new Date(date).getDay();
   return isNaN(dayOfWeek)
@@ -32,16 +31,52 @@ function getDayOfWeek(date) {
         "Saturday"
       ][dayOfWeek];
 }
-class Myticket extends Component {
+class Payment extends Component {
   componentDidMount() {
-    this.props.getAllOrder();
+    this.props.getOrderpending();
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: [],
+      dataOrders: []
+    };
+    this.onClick.bind(this);
   }
 
-  render() {
-    const { dataOrder, isLoadingOrder, errorOrder } = this.props.orders;
-    let st = "";
+  //edit status pending
+  onClick = orderId => event => {
+    event.preventDefault();
+    const token = localStorage.getItem("auths");
+    const data = this.state.dataOrders;
+    const status_id = 1;
 
-    if (errorOrder) {
+    console.log(orderId);
+    if (data !== undefined) {
+      alert("Thankyou ! We will be aproved your tiket soon ");
+      axios({
+        method: "PUT",
+        url: `http://localhost:4500/api/dumbticket/order/confirmed/${orderId}`,
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: {
+          status: status_id
+        }
+      }).then(respons => {
+        window.location = "/pages/Myticket";
+        this.setState({
+          status: respons.data
+        });
+      });
+    } else {
+      alert("authorized");
+    }
+  };
+  render() {
+    const { dataPending, isLoadingPending, errorPending } = this.props.orders;
+
+    if (errorPending) {
       return (
         <div>
           <h1>error</h1>
@@ -49,7 +84,7 @@ class Myticket extends Component {
       );
     }
 
-    if (isLoadingOrder) {
+    if (isLoadingPending) {
       return (
         <div>
           <h1>Now Loading</h1>
@@ -57,18 +92,18 @@ class Myticket extends Component {
       );
     }
     return (
-      <div style={{ margin: "0 auto" }}>
+      <div>
         <Nav />
 
-        <div style={{ margin: "5% 80px" }}>
+        <div style={{ margin: "10px 80px" }}>
           {" "}
           <Typography
             variant="h4"
             style={{ color: "#d50000", fontWeight: "bold" }}
           >
-            My Ticket
+            Payment
           </Typography>
-          {dataOrder.length === 0 && (
+          {dataPending.length === 0 && (
             <Typography
               variant="h6"
               style={{
@@ -81,202 +116,292 @@ class Myticket extends Component {
               Oups....No Data :({" "}
             </Typography>
           )}
-          {dataOrder.map((item, index) => {
-            st = item.event.start_time;
-            let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-            let dt = new Date(st.replace(pattern, `$3-$2-$1`));
-            //  let day = dt.getDay();
-            console.log(dt);
+          <div
+            style={{
+              backgroundColor: "#fff",
+              margin: "20px auto"
 
-            return (
-              <div
-                style={{
-                  backgroundColor: "#fff",
-                  margin: "5px auto",
-                  display: "flex",
-                  justifyContent: "center"
-                }}
-                key={index}
-              >
+              //   display: "flex",
+              //   justifyContent: "center",
+              //   flexDirection: "coloumn"
+            }}
+          >
+            {dataPending.map((item, index) => {
+              return (
                 <div
                   style={{
-                    backgroundColor: "#d50000",
+                    paddingTop: "40px",
                     width: "80%",
-                    margin: "10px 0",
-                    display: "flex",
-                    justifyContent: "center"
+                    margin: "0 10%",
+                    backgroundColor: "#fff"
                   }}
+                  key={index}
                 >
                   <div
                     style={{
-                      backgroundColor: "#fff",
-                      width: "95%",
-                      marginTop: "2%",
-                      marginBottom: "2%"
+                      backgroundColor: "#d50000",
+
+                      margin: "10px auto",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center"
                     }}
                   >
-                    <Grid
-                      container
+                    <div
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        backgroundColor: "#e0e0e0"
+                        backgroundColor: "#fff",
+                        width: "95%",
+                        marginTop: "2%",
+                        marginBottom: "2%"
                       }}
                     >
-                      <Grid item xs={10}>
-                        <div style={{ margin: "10px 20px" }}>
-                          <Typography
-                            variant="h6"
-                            style={{
-                              color: "#757575",
-                              fontWeight: "bold",
+                      <Grid
+                        container
+                        style={{
+                          backgroundColor: "#e0e0e0"
+                        }}
+                      >
+                        <Grid item xs={10}>
+                          <div style={{ margin: "10px 20px" }}>
+                            <Typography
+                              variant="h6"
+                              style={{
+                                color: "#757575",
+                                fontWeight: "bold",
 
-                              alignItems: "center",
-                              textAlign: "left",
-                              marginTop: "0",
-                              marginBottom: "0"
-                            }}
-                          >
-                            {item.user.fullname}
-                          </Typography>
-                          <Typography
-                            variant="body1"
+                                alignItems: "center",
+                                textAlign: "left",
+                                marginTop: "0",
+                                marginBottom: "0"
+                              }}
+                            >
+                              {item.user.fullname}
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              style={{
+                                color: "#757575",
+                                fontWeight: "bold",
+                                alignItems: "center",
+                                textAlign: "left",
+                                marginTop: "0",
+                                marginBottom: "0"
+                              }}
+                            >
+                              User Id : {item.user_id}
+                            </Typography>
+                          </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <div
                             style={{
-                              color: "#757575",
-                              fontWeight: "bold",
-                              alignItems: "center",
-                              textAlign: "left",
-                              marginTop: "0",
-                              marginBottom: "0"
+                              margin: "10px 20px",
+
+                              justifyContent: "space-between"
                             }}
                           >
-                            User Id : {item.user_id}
-                          </Typography>
-                        </div>
+                            <Typography
+                              variant="subtitle2"
+                              style={{
+                                color: "#757575",
+                                fontSize: "12px",
+                                alignItems: "center",
+                                textAlign: "left",
+
+                                marginTop: "0",
+                                marginBottom: "0"
+                              }}
+                            >
+                              HTM : {item.event.price}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              style={{
+                                color: "#757575",
+
+                                alignItems: "center",
+                                textAlign: "left",
+                                fontWeight: "bold",
+                                marginTop: "0",
+                                marginBottom: "0"
+                              }}
+                            >
+                              Status : {item.status}
+                            </Typography>
+                          </div>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={2}>
-                        <div
+                      <Grid container item xs={12}>
+                        {" "}
+                        <Grid item xs={10}>
+                          <div
+                            style={{
+                              margin: "10px 20px",
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between"
+                            }}
+                          >
+                            <Typography
+                              variant="h5"
+                              style={{
+                                color: "#424242",
+                                alignItems: "center",
+                                textAlign: "left",
+                                marginTop: "0",
+                                marginBottom: "0",
+                                fontWeight: "bold"
+                              }}
+                            >
+                              {item.event.name}
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              style={{
+                                color: "#757575",
+                                alignItems: "center",
+                                textAlign: "left",
+                                marginTop: "0",
+                                marginBottom: "0",
+                                fontSize: "14px"
+                              }}
+                            >
+                              {getDayOfWeek(item.event.start_date)} &nbsp;
+                              {item.event.start_date} &nbsp; at &nbsp;
+                              {item.event.start_time}
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              style={{
+                                color: "#757575",
+                                alignItems: "center",
+                                textAlign: "left",
+                                marginTop: "0",
+                                marginBottom: "0",
+                                fontSize: "14px"
+                              }}
+                            >
+                              {item.event.location}
+                            </Typography>
+                          </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <div
+                            style={{
+                              margin: "5% 0 5% 5%",
+                              alignItems: "center",
+                              textAlign: "left"
+                            }}
+                          >
+                            <img
+                              src={item.event.image}
+                              width="100"
+                              height="100"
+                            />
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </div>
+                  <div style={{ margin: "20px 2%" }}>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
                           style={{
-                            margin: "10px 20px",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between"
+                            color: "#757575",
+                            alignItems: "center",
+                            textAlign: "left",
+                            marginTop: "3%",
+                            fontWeight: "bold",
+                            marginBottom: "0"
                           }}
                         >
-                          <Typography
-                            variant="subtitle1"
-                            style={{
-                              color: "#757575",
-                              fontSize: "10px",
-                              alignItems: "center",
-                              textAlign: "left",
-
-                              marginTop: "0",
-                              marginBottom: "0"
-                            }}
-                          >
-                            Face Value : {item.event.price}
-                          </Typography>
-                          <Typography
-                            variant="subtitle2"
-                            style={{
-                              color: "#757575",
-
-                              alignItems: "center",
-                              textAlign: "left",
-                              fontWeight: "bold",
-                              marginTop: "0",
-                              marginBottom: "0"
-                            }}
-                          >
-                            Status : {item.status}
-                          </Typography>
-                        </div>
+                          Shopping Summary
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <Typography
+                          variant="subtitle2"
+                          style={{
+                            color: "#757575",
+                            alignItems: "center",
+                            textAlign: "left",
+                            marginTop: "20px",
+                            marginBottom: "10px"
+                          }}
+                        >
+                          Total Price : ({item.order_qty} items)
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography
+                          variant="subtitle2"
+                          style={{
+                            color: "#757575",
+                            textAlign: "left",
+                            marginTop: "20px",
+                            marginBottom: "10px"
+                          }}
+                        >
+                          Rp {item.total_price}
+                        </Typography>
                       </Grid>
                     </Grid>
-                    <Grid
-                      container
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between"
-                      }}
-                      item
-                      xs={12}
-                    >
-                      {" "}
+                    <Divider
+                      style={{ height: "5px", backgroundColor: "#9e9e9e" }}
+                    />
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
+                          style={{
+                            color: "#757575",
+                            alignItems: "center",
+                            textAlign: "left",
+                            marginTop: "3%",
+                            fontWeight: "bold",
+                            marginBottom: "0"
+                          }}
+                        >
+                          Prove of Payment
+                        </Typography>
+                      </Grid>
                       <Grid item xs={10}>
                         <div
                           style={{
-                            margin: "10px 20px",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between"
-                          }}
-                        >
-                          <Typography
-                            variant="h5"
-                            style={{
-                              color: "#424242",
-                              alignItems: "center",
-                              textAlign: "left",
-                              marginTop: "0",
-                              marginBottom: "0",
-                              fontWeight: "bold"
-                            }}
-                          >
-                            {item.event.name}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            style={{
-                              color: "#757575",
-                              alignItems: "center",
-                              textAlign: "left",
-                              marginTop: "0",
-                              marginBottom: "0",
-                              fontSize: "12px"
-                            }}
-                          >
-                            {getDayOfWeek(item.event.start_date)} &nbsp;
-                            {item.event.start_date} &nbsp; at
-                            {item.event.start_time}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            style={{
-                              color: "#757575",
-                              alignItems: "center",
-                              textAlign: "left",
-                              marginTop: "0",
-                              marginBottom: "0",
-                              fontSize: "14px"
-                            }}
-                          >
-                            {item.event.location}
-                          </Typography>
-                        </div>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <div
-                          style={{
-                            marginLeft: "10%",
+                            marginTop: "20px",
                             alignItems: "center",
                             textAlign: "left"
                           }}
                         >
                           <img
-                            src={item.event.image}
-                            width="100"
-                            height="100"
+                            src="https://idebisnis.org/wp-content/uploads/2018/05/cetak-struk-mandiri-400x491.jpg"
+                            width="200"
+                            height="200"
+                            style={{ border: "5px solid #424242" }}
                           />
                         </div>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Button
+                          variant="contained"
+                          onClick={this.onClick(item.id)}
+                          size="large"
+                          style={{
+                            backgroundColor: "#d50000",
+                            color: "#fff"
+                          }}
+                        >
+                          CONFIRM
+                        </Button>
                       </Grid>
                     </Grid>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <Footer />
@@ -286,15 +411,15 @@ class Myticket extends Component {
 }
 const mapStateToProps = state => {
   return {
-    orders: state.Order
+    orders: state.Orderpending
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getAllOrder: () => {
-      dispatch(getAllOrder());
+    getOrderpending: () => {
+      dispatch(getOrderpending());
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Myticket);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

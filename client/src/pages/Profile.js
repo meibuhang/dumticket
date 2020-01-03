@@ -5,7 +5,7 @@ import {
   Avatar,
   Typography,
   Grid,
-  IconButton,
+  Paper,
   Card,
   CardActionArea,
   CardActions,
@@ -13,7 +13,7 @@ import {
   CardMedia,
   Divider
 } from "@material-ui/core";
-
+import Footer from "../component/Footer";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { connect } from "react-redux";
 import { getProfile } from "../_actions/user";
@@ -49,7 +49,6 @@ class Profile extends Component {
     return (
       <div style={{ margin: "0 auto" }}>
         <Nav />
-
         <div style={{ margin: "0 80px", justifyContent: "center" }}>
           <div style={{ margin: "5% auto", width: "80%" }}>
             <Typography
@@ -107,16 +106,32 @@ class Profile extends Component {
                       src={data.image}
                       style={{ width: "200px", height: "200px" }}
                     />
-                    <Button
-                      variant="contained"
-                      style={{
-                        backgroundColor: "#d32f2f",
-                        color: "#fff",
-                        marginTop: "20px"
-                      }}
+                    <a
+                      href={"/pages/Editprofile/" + data.id}
+                      style={{ color: "#bdbdbd", textDecoration: "none" }}
                     >
-                      Edit Profile
-                    </Button>
+                      <Paper
+                        style={{
+                          backgroundColor: "#d32f2f",
+                          backgroundPosition: "center",
+                          width: "200px",
+                          height: "40px",
+                          marginTop: "30px"
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle1"
+                          style={{
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            paddingTop: "8px"
+                          }}
+                        >
+                          Edit Profile
+                        </Typography>
+                      </Paper>
+                    </a>
                   </div>
                 </Grid>
               </Grid>
@@ -194,6 +209,7 @@ class Profile extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

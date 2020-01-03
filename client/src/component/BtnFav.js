@@ -37,9 +37,7 @@ export default class BtnFav extends Component {
   click = event_id => event => {
     event.preventDefault();
     const token = localStorage.getItem("auths");
-    alert("Favorite added !");
-    console.log(token, "ini token");
-    console.log(event_id, "ini id");
+
     axios({
       method: "post",
       url: "http://localhost:4500/api/dumbticket/event/addFav",

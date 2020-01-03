@@ -112,7 +112,10 @@ exports.editUser = async (req, res) => {
         fullname: req.body.fullname,
         lastname: req.body.lastname,
         phone: req.body.phone,
+        // email: req.body.email,
         image: req.body.image
+        // username: req.body.username,
+        // password: req.body.password
       };
 
       users

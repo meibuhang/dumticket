@@ -87,7 +87,7 @@ export default class Orderticket extends Component {
     })
       .then(response => {
         this.setState({ data: response.data, isLoading: false });
-        window.location = "/"; //direct halaman
+        window.location = "/pages/Payment"; //direct halaman
       })
       .catch(err => {
         this.setState({ data: err, isLoading: false });
@@ -120,6 +120,7 @@ export default class Orderticket extends Component {
                     value={this.state.input}
                     onChange={this.handleChange}
                     fullWidth
+                    required
                   />
                   <label
                     name="total_price"

@@ -1,4 +1,4 @@
-import { GET_ALLORDER } from "../config/constants.js";
+import { GET_ALLORDER, GET_ORDERPENDING } from "../config/constants.js";
 
 // yg akan pertama kali di baca :
 const initialStateOrder = {
@@ -29,6 +29,42 @@ export const Order = (state = initialStateOrder, action) => {
         ...state,
         errorOrder: true,
         isLoadingOrder: false
+      };
+
+    default:
+      return state;
+  }
+};
+
+// PENDING ORDER FOR PAYMENT :
+const initialStatePending = {
+  dataPending: [],
+  isLoadingPending: false,
+  isPostPending: false,
+  errorPending: false
+};
+
+export const Orderpending = (state = initialStatePending, action) => {
+  switch (action.type) {
+    //POST
+    case `${GET_ORDERPENDING}_PENDING`:
+      return {
+        ...state,
+        isLoadingPending: true,
+        isPostOrder: true
+      };
+    case `${GET_ORDERPENDING}_FULFILLED`:
+      return {
+        ...state,
+        dataPending: action.payload.data,
+        isLoadingPending: false,
+        isPostOrder: false
+      };
+    case `${GET_ORDERPENDING}_REJECTED`:
+      return {
+        ...state,
+        errorPending: true,
+        isLoadingPending: false
       };
 
     default:
