@@ -68,7 +68,7 @@ class Home extends Component {
             <Category />
             <div style={{ marginTop: "10px" }}>
               <Typography variant="h5" style={{ fontWeight: "Bold" }}>
-                Today Event
+                Todays
               </Typography>
               <Divider />
               <div style={{ marginTop: "2%" }}>
@@ -107,7 +107,7 @@ class Home extends Component {
                                 variant="h6"
                                 style={{ color: "#212121", fontWeight: "bold" }}
                               >
-                                {item.name}
+                                {item.name.substring(0, 20)}
                               </Typography>
                               <Typography
                                 variant="body2"
@@ -148,7 +148,7 @@ class Home extends Component {
             {/* NEXT EVENT */}
             <div style={{ marginTop: "5%" }}>
               <Typography variant="h5" style={{ fontWeight: "Bold" }}>
-                Up Coming Event
+                Upcoming
               </Typography>
               <Divider />
               <div style={{ marginTop: "2%" }}>
@@ -188,7 +188,7 @@ class Home extends Component {
                                 variant="h6"
                                 style={{ color: "#212121", fontWeight: "bold" }}
                               >
-                                {items.name}
+                                {items.name.substring(0, 20)}
                               </Typography>
                               <Typography
                                 variant="body2"

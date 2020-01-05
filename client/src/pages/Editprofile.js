@@ -89,7 +89,7 @@ class Editprofile extends Component {
                 <form onSubmit={this.onSubmit}>
                   <TextField
                     fullWidth
-                    label="Full Name"
+                    label="First Name"
                     name="fullName"
                     type="text"
                     style={{ paddingTop: "20px", color: "#616161" }}
@@ -106,11 +106,11 @@ class Editprofile extends Component {
                     onChange={this.onChange}
                     required
                   />
-                  <TextField
+                  <input
                     fullWidth
                     label="Phone"
                     name="endDate"
-                    type="tel"
+                    type="phone"
                     name="phone"
                     pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                     onChange={this.onChange}

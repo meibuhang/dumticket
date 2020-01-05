@@ -36,7 +36,7 @@ function Register({ onSubmit }) {
                 <TextField
                   className={classes.margin}
                   fullWidth
-                  label="Full Name"
+                  label="First Name"
                   name="fullname"
                   type="text"
                 />
@@ -79,7 +79,7 @@ function Register({ onSubmit }) {
                   fullWidth
                   style={{ marginTop: "30px", marginBottom: "20px" }}
                 >
-                  Login
+                  Register
                 </Button>
               </form>
 

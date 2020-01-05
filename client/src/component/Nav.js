@@ -10,6 +10,7 @@ import {
   Backdrop,
   Typography,
   MenuItem,
+  ListItemIcon,
   Button,
   Modal,
   Fade,
@@ -17,8 +18,12 @@ import {
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import MoreIcon from "@material-ui/icons/MoreVert";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import PaymentIcon from "@material-ui/icons/Payment";
+import TodayIcon from "@material-ui/icons/Today";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Login from "./Login";
 import Register from "./Register";
 const useStyles = makeStyles(theme => ({
@@ -122,6 +127,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   //handle Modal login
 
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
@@ -161,8 +170,11 @@ export default function PrimarySearchAppBar() {
           to="/pages/profile"
           style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
         >
-          {" "}
-          <ListItemText primary="Profile" />
+          <MenuItem onClick={handleClose}>
+            {" "}
+            <AccountBoxIcon style={{ marginRight: 20 }} />
+            Profile
+          </MenuItem>
         </Link>
       </ListItem>
       <ListItem>
@@ -170,8 +182,10 @@ export default function PrimarySearchAppBar() {
           to="/pages/Myticket"
           style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
         >
-          {" "}
-          <ListItemText primary="My Tiket" />
+          <MenuItem onClick={handleClose}>
+            <ConfirmationNumberIcon style={{ marginRight: 20 }} />
+            My Ticket
+          </MenuItem>
         </Link>
       </ListItem>
       <ListItem>
@@ -179,8 +193,10 @@ export default function PrimarySearchAppBar() {
           to="/pages/Payment"
           style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
         >
-          {" "}
-          <ListItemText primary="Payment" />
+          <MenuItem onClick={handleClose}>
+            <PaymentIcon style={{ marginRight: 20 }} />
+            Payment
+          </MenuItem>
         </Link>
       </ListItem>
       <ListItem>
@@ -188,8 +204,10 @@ export default function PrimarySearchAppBar() {
           to="/pages/Addevent"
           style={{ color: "#424242", margin: "0 5px", textDecoration: "none" }}
         >
-          {" "}
-          <ListItemText primary="Add Event" />
+          <MenuItem onClick={handleClose}>
+            <TodayIcon style={{ marginRight: 20 }} />
+            Add Event
+          </MenuItem>
         </Link>
       </ListItem>
       <ListItem
@@ -200,7 +218,10 @@ export default function PrimarySearchAppBar() {
           textDecoration: "none"
         }}
       >
-        <ListItemText primary="SignOut" onClick={signOut} />
+        <MenuItem onClick={signOut}>
+          <ExitToAppIcon style={{ marginRight: 20 }} />
+          Exit
+        </MenuItem>
       </ListItem>
     </Menu>
   );
@@ -234,12 +255,12 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static" style={{ backgroundColor: "#d32f2f" }}>
         <Toolbar>
-          <Typography className={classes.title} variant="h5" noWrap>
-            <Link to="/" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              DUMBTICK{" "}
-            </Link>
-          </Typography>
-
+          {" "}
+          <Link to="/" style={{ color: "#FFFFFF", textDecoration: "none" }}>
+            <Typography className={classes.title} variant="h5" noWrap>
+              DUMBTICK
+            </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {auth || (
@@ -289,7 +310,6 @@ export default function PrimarySearchAppBar() {
               </div>
             )}
           </div>
-
           <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"

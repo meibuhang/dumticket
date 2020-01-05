@@ -109,7 +109,7 @@ class Searchevent extends Component {
                                 variant="h6"
                                 style={{ color: "#212121", fontWeight: "bold" }}
                               >
-                                {item.name}
+                                {item.name.substring(0, 20)}
                               </Typography>
                               <Typography
                                 variant="body2"

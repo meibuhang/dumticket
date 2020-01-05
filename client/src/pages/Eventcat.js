@@ -50,7 +50,7 @@ class Eventcat extends Component {
           <Category />
           <div style={{ marginTop: "5%" }}>
             <Typography variant="h5" style={{ fontWeight: "Bold" }}>
-              Category :
+              Events :
             </Typography>
             <Divider />
             <div style={{ marginTop: "2%" }}>
@@ -90,7 +90,7 @@ class Eventcat extends Component {
                               variant="h6"
                               style={{ color: "#212121", fontWeight: "bold" }}
                             >
-                              {item.name}
+                              {item.name.substring(0, 20)}
                             </Typography>
                             <Typography
                               variant="body2"

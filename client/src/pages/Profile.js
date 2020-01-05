@@ -172,14 +172,14 @@ class Profile extends Component {
                           />
                           <CardContent>
                             <Typography gutterBottom variant="h6">
-                              {item.events.name}
+                              {item.events.name.substring(0, 20)}
                             </Typography>
                             <Typography
                               variant="body2"
                               component="p"
                               style={{ color: "#d50000", fontWeight: "bold" }}
                             >
-                              {item.events.startd_date}
+                              {item.events.start_date}
                             </Typography>
                             <Typography
                               variant="body2"

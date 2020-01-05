@@ -218,8 +218,8 @@ class Myticket extends Component {
                               fontSize: "14px"
                             }}
                           >
-                            {getDayOfWeek(item.event.start_date)} &nbsp;
-                            {item.event.start_date} &nbsp; at
+                            {getDayOfWeek(item.event.start_date)}, &nbsp;
+                            {item.event.start_date} &nbsp; at &nbsp;
                             {item.event.start_time}
                           </Typography>
                           <Typography
